@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FaceID · Recognition System</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- face-api.js CDN -->
+  <script defer src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+  <script defer src="script.js"></script>
+</head>
+<body>
+
+  <!-- ── HEADER ───────────────────────────────────────────── -->
+  <header>
+    <div class="logo">
+      <span class="logo-icon">◈</span>
+      <span class="logo-text">FACE<em>ID</em></span>
+    </div>
+    <div class="status-pill" id="statusPill">
+      <span class="status-dot"></span>
+      <span id="statusText">Initializing…</span>
+    </div>
+  </header>
+
+  <!-- ── MAIN ─────────────────────────────────────────────── -->
+  <main>
+
+    <!-- Camera viewport -->
+    <section class="viewport-wrap">
+      <div class="viewport">
+        <!-- Live video feed -->
+        <video id="video" autoplay muted playsinline></video>
+        <!-- Canvas overlaid on video for drawing detections -->
+        <canvas id="overlay"></canvas>
+
+        <!-- Scanning animation lines -->
+        <div class="scan-line"></div>
+        <div class="corner tl"></div>
+        <div class="corner tr"></div>
+        <div class="corner bl"></div>
+        <div class="corner br"></div>
+
+        <!-- Result badge shown during recognition -->
+        <div class="result-badge" id="resultBadge">
+          <span class="result-icon" id="resultIcon">✓</span>
+          <span id="resultName">Unknown</span>
+        </div>
+      </div>
+
+      <!-- Faces registered counter -->
+      <div class="faces-counter">
+        <span id="faceCount">0</span> faces registered
+      </div>
+    </section>
+
+    <!-- Controls -->
+    <section class="controls">
+
+      <!-- Register panel -->
+      <div class="card register-card">
+        <h2>Register Face</h2>
+        <p>Enter a name, then click <strong>Capture</strong> while your face is visible.</p>
+        <div class="input-row">
+          <input type="text" id="personName" placeholder="Your name…" maxlength="30" />
+        </div>
+        <button class="btn btn-register" id="btnRegister">
+          <span class="btn-icon">⊕</span> Capture &amp; Register
+        </button>
+        <div class="registered-list" id="registeredList">
+          <!-- populated by JS -->
+        </div>
+      </div>
+
+      <!-- Recognize panel -->
+      <div class="card recognize-card">
+        <h2>Recognize</h2>
+        <p>Start real-time recognition to identify registered faces in the feed.</p>
+        <button class="btn btn-recognize" id="btnRecognize">
+          <span class="btn-icon">◉</span> Start Recognition
+        </button>
+        <button class="btn btn-stop hidden" id="btnStop">
+          <span class="btn-icon">◻</span> Stop
+        </button>
+        <div class="log" id="logBox">
+          <p class="log-placeholder">Recognition events will appear here…</p>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- ── MODAL – loading models ───────────────────────────── -->
+  <div class="modal-overlay" id="loadingModal">
+    <div class="modal-box">
+      <div class="spinner"></div>
+      <p id="loadingMsg">Loading AI models…</p>
+      <small>This happens once per session</small>
+    </div>
+  </div>
+
+</body>
+</html>
